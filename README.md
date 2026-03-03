@@ -91,7 +91,7 @@ WALK_BACK(start_hash, chain):
     h := parent
 ```
 
-Start from a hash (tip), follow `parent_hash` until parent is empty or missing. Linear walk, no binary search.
+Start from a hash (tip), follow `parent_hash` until parent is empty or missing. Uses linear walk.
 
 ---
 
