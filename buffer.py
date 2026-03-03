@@ -1,5 +1,7 @@
 """
-Reorg buffer: collect blocks, sort by slot, yield batches for ordered processing.
+Reorg buffer: holds the resulting tree at the head (~30 slots) so we can determine
+which branch is longer. Blocks are sorted by slot and processed in order.
+Parent hash is always set (no need to handle missing).
 """
 import threading
 from typing import TYPE_CHECKING
@@ -7,7 +9,8 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from solana import parsed_idl_block_message_pb2
 
-REORG_BUFFER_SIZE = 10
+# Slots to buffer at head of tree for branch-length comparison. ~30 is enough for Solana.
+REORG_BUFFER_SIZE = 30
 
 # (block_hash, parent_hash, slot, tx_block)
 BatchItem = tuple[bytes, bytes, int, "parsed_idl_block_message_pb2.ParsedIdlBlockMessage"]
